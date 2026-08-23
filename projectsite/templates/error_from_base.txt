@@ -1,0 +1,35 @@
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified some issues:
+
+WARNINGS:
+?: (staticfiles.W004) The directory 'C:\Users\ariel\OneDrive\Desktop\appdev_bscs3\psuenv\PSUSphere\projectsite\static' in the STATICFILES_DIRS setting does not exist.
+
+System check identified 1 issue (0 silenced).
+August 23, 2026 - 01:17:58
+Django version 5.2.17, using settings 'projectsite.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+[23/Aug/2026 01:18:03] "GET / HTTP/1.1" 200 17361
+[23/Aug/2026 01:18:03] "GET /static/css/bootstrap.min.css HTTP/1.1" 404 1877
+[23/Aug/2026 01:18:03] "GET /static/css/ready.css HTTP/1.1" 404 1853
+[23/Aug/2026 01:18:03] "GET /static/css/demo.css HTTP/1.1" 404 1850
+[23/Aug/2026 01:18:03] "GET /static/js/core/jquery.3.2.1.min.js HTTP/1.1" 404 1895
+[23/Aug/2026 01:18:03] "GET /static/img/profile.jpg HTTP/1.1" 404 1859
+[23/Aug/2026 01:18:03] "GET /static/img/profile2.jpg HTTP/1.1" 404 1862
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js HTTP/1.1" 404 1964
+[23/Aug/2026 01:18:03] "GET /static/js/core/popper.min.js HTTP/1.1" 404 1877
+[23/Aug/2026 01:18:03] "GET /static/js/core/bootstrap.min.js HTTP/1.1" 404 1886
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js HTTP/1.1" 404 1982
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/chartist/chartist.min.js HTTP/1.1" 404 1916
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/bootstrap-notify/bootstrap-notify.min.js HTTP/1.1" 404 1964
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js HTTP/1.1" 404 1964
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/jquery-mapael/jquery.mapael.min.js HTTP/1.1" 404 1946
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/jquery-mapael/maps/world_countries.min.js HTTP/1.1" 404 1967
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/chart-circle/circles.min.js HTTP/1.1" 404 1925
+[23/Aug/2026 01:18:03] "GET /static/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js HTTP/1.1" 404 1964
+[23/Aug/2026 01:18:03] "GET /static/js/ready.min.js HTTP/1.1" 404 1859
