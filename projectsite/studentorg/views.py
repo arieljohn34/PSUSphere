@@ -1,15 +1,14 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView  # ← Add this import
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from studentorg.models import Organization
-from studentorg.forms import OrganizationForm  # Add this import
+from studentorg.forms import OrganizationForm
 from django.urls import reverse_lazy
 
 
-class HomePageView(ListView):
-    model = Organization
-    context_object_name = 'home'
-    template_name = "home.html"
+class HomePageView(TemplateView):  # ← Changed from ListView to TemplateView
+    template_name = "home.html"  # ← Remove context_object_name
 
 
 class OrganizationList(ListView):
