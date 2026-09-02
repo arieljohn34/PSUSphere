@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Organization Members</h4>
+        <div class="card-title">
+            {% if object %}Update Org Member{% else %}Add New Org Member{% endif %}
+        </div>
+        <div class="card-category">Fill in the details below</div>
+    </div>
+
+    <br />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form class="navbar-left navbar-form nav-search mr-md-3" action="">
+                <div class="input-group">
+                    <input type="text" placeholder="Search ..." class="form-control" />
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <i class="la la-search search-icon"></i>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <div class="pull-right">
+                <a href="{% url 'orgmember-add' %}" class="btn btn-success btn-rounded">Add Member</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                {% if object %}Update Org Member{% else %}Add New Org Member{% endif %}
+            </div>
+            <div class="card-category">Page Subtitle</div>
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+                <form action="" method="post" novalidate>
+                    {% csrf_token %}
+                    {% include 'includes/form.html' %}
+
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-3">
+                            <button type="submit" class="btn btn-primary btn-rounded">Submit</button>
+                            <a href="{% url 'orgmember-list' %}" class="btn btn-default btn-rounded">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

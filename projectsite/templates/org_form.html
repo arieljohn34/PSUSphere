@@ -4,8 +4,20 @@
 {% block content %}
 <div class="content">
     <div class="container-fluid">
-        <h4 class="page-title">Home</h4>
-        <div class="card-title">List of Organizations</div>
+        <h4 class="page-title">
+            {% if model_type == 'organization' %}
+                Organizations
+            {% else %}
+                Organization Members
+            {% endif %}
+        </h4>
+        <div class="card-title">
+            {% if model_type == 'organization' %}
+                {% if object %}Update Organization{% else %}Add New Organization{% endif %}
+            {% else %}
+                {% if object %}Update Org Member{% else %}Add New Org Member{% endif %}
+            {% endif %}
+        </div>
         <div class="card-category">Page Subtitle</div>
     </div>
 
@@ -26,9 +38,11 @@
         </div>
         <div class="col-md-6">
             <div class="pull-right">
-                <a href="{% url 'organization-add' %}" class="btn btn-success btn-rounded">
-                    Add Organization
-                </a>
+                {% if model_type == 'organization' %}
+                    <a href="{% url 'organization-add' %}" class="btn btn-success btn-rounded">Add Organization</a>
+                {% else %}
+                    <a href="{% url 'orgmember-add' %}" class="btn btn-success btn-rounded">Add Member</a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -36,10 +50,10 @@
     <div class="card">
         <div class="card-header">
             <div class="card-title">
-                {% if object %}
-                    Update Organization
+                {% if model_type == 'organization' %}
+                    {% if object %}Update Organization{% else %}Add New Organization{% endif %}
                 {% else %}
-                    Add New Organization
+                    {% if object %}Update Org Member{% else %}Add New Org Member{% endif %}
                 {% endif %}
             </div>
             <div class="card-category">Page Subtitle</div>
@@ -55,6 +69,13 @@
                             <button type="submit" class="btn btn-primary btn-rounded">
                                 Submit
                             </button>
+                            <a href="
+                                {% if model_type == 'organization' %}
+                                    {% url 'organization-list' %}
+                                {% else %}
+                                    {% url 'orgmember-list' %}
+                                {% endif %}
+                            " class="btn btn-default btn-rounded">Cancel</a>
                         </div>
                     </div>
                 </form>

@@ -1,10 +1,28 @@
+# studentorg/forms.py
 from django import forms
-from django.forms import ModelForm
+from .models import Organization, OrgMember, Student, College, Program
 
-from .models import Organization
-
-
-class OrganizationForm(ModelForm):
+class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
-        fields = "__all__"
+        fields = '__all__'   # or list specific fields
+
+class OrgMemberForm(forms.ModelForm):
+    class Meta:
+        model = OrgMember
+        fields = '__all__'
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+class CollegeForm(forms.ModelForm):
+    class Meta:
+        model = College
+        fields = '__all__'
+
+class ProgramForm(forms.ModelForm):
+    class Meta:
+        model = Program
+        fields = '__all__'
