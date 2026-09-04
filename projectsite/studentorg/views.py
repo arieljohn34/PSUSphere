@@ -46,6 +46,15 @@ class OrganizationList(ListView):
         if sort_by in allowed:
             return sort_by
         return "name"
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(
+                Q(name__icontains=query) |
+                Q(college__college_name__icontains=query)
+            )
+        return qs
 
     
 
@@ -197,11 +206,11 @@ class CollegeUpdateView(UpdateView):
 
 class CollegeDeleteView(DeleteView):
     model = College
-    template_name = 'college_confirm_delete.html'
+    template_name = 'college_del.html'
     success_url = reverse_lazy('college-list')
 
 
-# ----- Program Views (unchanged) -----
+
 class ProgramListView(ListView):
     model = Program
     template_name = 'program_list.html'
@@ -241,5 +250,5 @@ class ProgramUpdateView(UpdateView):
 
 class ProgramDeleteView(DeleteView):
     model = Program
-    template_name = 'program_confirm_del.html'
+    template_name = 'program_del.html'
     success_url = reverse_lazy('program-list')
