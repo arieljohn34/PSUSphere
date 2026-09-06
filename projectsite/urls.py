@@ -1,20 +1,32 @@
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
+from django.views.generic import RedirectView
 
-from studentorg.views import HomePageView, OrganizationList, OrganizationCreateView,OrganizationUpdateView, OrganizationDeleteView
+from studentorg.views import (
+    HomePageView,
+    OrganizationList,
+    OrganizationCreateView,
+    OrganizationUpdateView,
+    OrganizationDeleteView,
+)
 from studentorg import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/", include("allauth.urls")), # allauth routes
+
+    # All allauth URLs (login, logout, signup, social login, etc.)
+    path("accounts/", include("allauth.urls")),
+
+    # Homepage (protected by LoginRequiredMixin)
     path('', views.HomePageView.as_view(), name='home'),
+
+    # Organizations
     path('organization_list', OrganizationList.as_view(), name='organization-list'),
     path('organization_list/add', OrganizationCreateView.as_view(), name='organization-add'),
     path('organization_list/<pk>', OrganizationUpdateView.as_view(), name='organization-update'),
     path('organization_list/<pk>/delete', OrganizationDeleteView.as_view(), name='organization-delete'),
 
-
- # OrgMember
+    # OrgMember
     path('orgmember/', views.OrgMemberListView.as_view(), name='orgmember-list'),
     path('orgmember/add/', views.OrgMemberCreateView.as_view(), name='orgmember-add'),
     path('orgmember/<int:pk>/edit/', views.OrgMemberUpdateView.as_view(), name='orgmember-edit'),
@@ -37,4 +49,10 @@ urlpatterns = [
     path('program/add/', views.ProgramCreateView.as_view(), name='program-add'),
     path('program/<int:pk>/edit/', views.ProgramUpdateView.as_view(), name='program-edit'),
     path('program/<int:pk>/delete/', views.ProgramDeleteView.as_view(), name='program-delete'),
+
+    # Shortcut /login/ -> /accounts/login/
+    path('login/', RedirectView.as_view(url='/accounts/login/', permanent=False)),
+
+    # Shortcut /logout/ -> /accounts/logout/
+    path('logout/', RedirectView.as_view(url='/accounts/logout/', permanent=False)),
 ]

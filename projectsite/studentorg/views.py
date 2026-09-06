@@ -3,13 +3,14 @@ from django.views.generic import TemplateView, ListView, CreateView, UpdateView,
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Organization, Student, OrgMember, College, Program
 from .forms import OrganizationForm, OrgMemberForm, StudentForm, CollegeForm, ProgramForm
 
 
-
-class HomePageView(TemplateView):
+# ---------- Home Page (requires login) ----------
+class HomePageView(LoginRequiredMixin, TemplateView):
     model = Organization
     context_object_name = 'home'
     template_name = "home.html"
@@ -17,14 +18,12 @@ class HomePageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_students"] = Student.objects.count()
-        context["total_organizations"] = Organization.objects.count()   
+        context["total_organizations"] = Organization.objects.count()
         context["total_programs"] = Program.objects.count()
 
         today = timezone.now().date()
         count = (
-            OrgMember.objects.filter(
-                date_joined__year=today.year
-            )
+            OrgMember.objects.filter(date_joined__year=today.year)
             .values("student")
             .distinct()
             .count()
@@ -33,19 +32,20 @@ class HomePageView(TemplateView):
         return context
 
 
-
+# ---------- Organization CRUD ----------
 class OrganizationList(ListView):
     model = Organization
     context_object_name = 'organization'
-    template_name = 'org_list.html'          
+    template_name = 'org_list.html'
     paginate_by = 5
 
     def get_ordering(self):
-        allowed = ["name", "college__college_name"]  
+        allowed = ["name", "college__college_name"]
         sort_by = self.request.GET.get("sort_by")
         if sort_by in allowed:
             return sort_by
         return "name"
+
     def get_queryset(self):
         qs = super().get_queryset()
         query = self.request.GET.get('q')
@@ -56,13 +56,13 @@ class OrganizationList(ListView):
             )
         return qs
 
-    
 
 class OrganizationCreateView(CreateView):
     model = Organization
     form_class = OrganizationForm
-    template_name = 'org_form.html'        
+    template_name = 'org_form.html'
     success_url = reverse_lazy('organization-list')
+
 
 class OrganizationUpdateView(UpdateView):
     model = Organization
@@ -70,16 +70,17 @@ class OrganizationUpdateView(UpdateView):
     template_name = 'org_form.html'
     success_url = reverse_lazy('organization-list')
 
+
 class OrganizationDeleteView(DeleteView):
     model = Organization
     template_name = 'org_del.html'
     success_url = reverse_lazy('organization-list')
 
 
-
+# ---------- OrgMember ----------
 class OrgMemberListView(ListView):
     model = OrgMember
-    template_name = 'orgmember_list.html'   
+    template_name = 'orgmember_list.html'
     context_object_name = 'orgmembers'
     paginate_by = 10
 
@@ -101,11 +102,13 @@ class OrgMemberListView(ListView):
             )
         return qs
 
+
 class OrgMemberCreateView(CreateView):
     model = OrgMember
     form_class = OrgMemberForm
-    template_name = 'orgmember_form.html'   
+    template_name = 'orgmember_form.html'
     success_url = reverse_lazy('orgmember-list')
+
 
 class OrgMemberUpdateView(UpdateView):
     model = OrgMember
@@ -113,15 +116,14 @@ class OrgMemberUpdateView(UpdateView):
     template_name = 'orgmember_form.html'
     success_url = reverse_lazy('orgmember-list')
 
+
 class OrgMemberDeleteView(DeleteView):
     model = OrgMember
-    template_name = 'orgmember_del.html'   
+    template_name = 'orgmember_del.html'
     success_url = reverse_lazy('orgmember-list')
 
 
-
-
-
+# ---------- Student ----------
 class StudentListView(ListView):
     model = Student
     template_name = 'student_list.html'
@@ -129,22 +131,23 @@ class StudentListView(ListView):
     paginate_by = 10
 
     def get_ordering(self):
-        allowed = ['lastname', 'firstname', 'student_id']   
+        allowed = ['lastname', 'firstname', 'student_id']
         sort_by = self.request.GET.get('sort_by')
         if sort_by in allowed:
             return sort_by
-        return 'lastname'                                 
+        return 'lastname'
 
     def get_queryset(self):
         qs = super().get_queryset()
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(
-                Q(firstname__icontains=query) |           
-                Q(lastname__icontains=query) |             
+                Q(firstname__icontains=query) |
+                Q(lastname__icontains=query) |
                 Q(student_id__icontains=query)
             )
         return qs
+
 
 class StudentCreateView(CreateView):
     model = Student
@@ -166,7 +169,7 @@ class StudentDeleteView(DeleteView):
     success_url = reverse_lazy('student-list')
 
 
-# ----- College Views (unchanged) -----
+# ---------- College ----------
 class CollegeListView(ListView):
     model = College
     template_name = 'college_list.html'
@@ -190,6 +193,7 @@ class CollegeListView(ListView):
             )
         return qs
 
+
 class CollegeCreateView(CreateView):
     model = College
     form_class = CollegeForm
@@ -210,7 +214,7 @@ class CollegeDeleteView(DeleteView):
     success_url = reverse_lazy('college-list')
 
 
-
+# ---------- Program ----------
 class ProgramListView(ListView):
     model = Program
     template_name = 'program_list.html'
@@ -233,6 +237,7 @@ class ProgramListView(ListView):
                 Q(college__college_name__icontains=query)
             )
         return qs
+
 
 class ProgramCreateView(CreateView):
     model = Program
