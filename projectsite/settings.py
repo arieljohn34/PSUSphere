@@ -1,3 +1,4 @@
+#settings.py
 from pathlib import Path
 import os
 import socket
@@ -34,10 +35,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.github',
     ]
 
-SITE_ID = 5
+SITE_ID = 7
 
 
 
@@ -132,7 +132,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = '/home/ArielJohn/PSUSphere/staticfiles'
 STATICFILES_DIRS = []  # No static folder at project level
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
